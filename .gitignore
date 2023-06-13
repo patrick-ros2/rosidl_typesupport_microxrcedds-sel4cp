@@ -78,3 +78,8 @@ qtcreator-*
 
 # Colcon custom files
 COLCON_IGNORE
+
+.vscode
+.idea
+cmake-build*
+
