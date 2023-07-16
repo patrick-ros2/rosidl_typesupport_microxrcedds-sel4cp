@@ -7,7 +7,7 @@ ROSIDL_TYPESUPPORT_MICROXRCEDDS_C_DIR = rosidl_typesupport_microxrcedds_c
 # Pushes the current directory to remote host.
 # ==================================
 
-REMOTE_USER_HOST = "patrick@vm_comp4961_ubuntu2204"
+REMOTE_USER_HOST = "patrick@vm_comp4961_ubuntu1804"
 REMOTE_DEST_DIR = "~/remote/$(shell hostname -s)/"
 
 .PHONY: push-remote
