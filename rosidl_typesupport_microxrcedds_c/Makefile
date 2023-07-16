@@ -1,6 +1,7 @@
 SHELL = /bin/zsh
 PWD_DIR = "$(shell basename $$(pwd))"
 BUILD_DIR = build
+INSTALL_DIR = ~/ros2
 
 # ==================================
 # Pushes the current directory to remote host.
@@ -43,10 +44,10 @@ remote: push-remote
 .PHONY: clean
 clean:
 	rm -rf $(BUILD_DIR)
-	sudo rm -rf /usr/local/lib/rosidl_typesupport_microxrcedds_c/rosidl_typesupport_microxrcedds_c
-	sudo rm -rf /usr/local/lib/librosidl_typesupport_microxrcedds_c.a
-	sudo rm -rf /usr/local/share/rosidl_typesupport_microxrcedds_c
-	sudo rm -rf /usr/local/include/rosidl_typesupport_microxrcedds_c
+	rm -rf $(INSTALL_DIR)/lib/rosidl_typesupport_microxrcedds_c/rosidl_typesupport_microxrcedds_c
+	rm -rf $(INSTALL_DIR)/lib/librosidl_typesupport_microxrcedds_c.a
+	rm -rf $(INSTALL_DIR)/share/rosidl_typesupport_microxrcedds_c
+	rm -rf $(INSTALL_DIR)/include/rosidl_typesupport_microxrcedds_c
 
 # ==================================
 # Build
@@ -58,28 +59,8 @@ build:
 		cmake -S . -B $(BUILD_DIR) \
 			-DCMAKE_C_COMPILER_WORKS=1 \
 			-DCMAKE_CXX_COMPILER_WORKS=1 \
+			-DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR) \
 			-DCMAKE_MODULE_PATH=./
 	cd $(BUILD_DIR) && $(MAKE) -j $(NUM_PROCS)
 	# Install so that we can use the library in other projects.
-	cd $(BUILD_DIR) && sudo $(MAKE) install
-
-#	Install the project...
-#    -- Install configuration: ""
-#    -- Installing: /usr/local/lib/rosidl_typesupport_microxrcedds_c/rosidl_typesupport_microxrcedds_c
-#    -- Installing: /usr/local/share/rosidl_typesupport_microxrcedds_c/cmake
-#    -- Installing: /usr/local/share/rosidl_typesupport_microxrcedds_c/cmake/rosidl_typesupport_microxrcedds_c_generate_interfaces.cmake
-#    -- Installing: /usr/local/share/rosidl_typesupport_microxrcedds_c/resource
-#    -- Installing: /usr/local/share/rosidl_typesupport_microxrcedds_c/resource/msg__rosidl_typesupport_microxrcedds_c.h.em
-#    -- Installing: /usr/local/share/rosidl_typesupport_microxrcedds_c/resource/srv__type_support_c.c.em
-#    -- Installing: /usr/local/share/rosidl_typesupport_microxrcedds_c/resource/idl__type_support_c.c.em
-#    -- Installing: /usr/local/share/rosidl_typesupport_microxrcedds_c/resource/msg__type_support_c.c.em
-#    -- Installing: /usr/local/share/rosidl_typesupport_microxrcedds_c/resource/srv__rosidl_typesupport_microxrcedds_c.h.em
-#    -- Installing: /usr/local/share/rosidl_typesupport_microxrcedds_c/resource/idl__rosidl_typesupport_microxrcedds_c.h.em
-#    -- Installing: /usr/local/share/rosidl_typesupport_microxrcedds_c/resource/rosidl_typesupport_microxrcedds_c__visibility_control.h.in
-#    -- Up-to-date: /usr/local/include
-#    -- Installing: /usr/local/include/rosidl_typesupport_microxrcedds_c
-#    -- Installing: /usr/local/include/rosidl_typesupport_microxrcedds_c/identifier.h
-#    -- Installing: /usr/local/include/rosidl_typesupport_microxrcedds_c/message_type_support.h
-#    -- Installing: /usr/local/include/rosidl_typesupport_microxrcedds_c/service_type_support.h
-#    -- Installing: /usr/local/include/rosidl_typesupport_microxrcedds_c/visibility_control.h
-#    -- Installing: /usr/local/lib/librosidl_typesupport_microxrcedds_c.a
+	cd $(BUILD_DIR) && $(MAKE) install
